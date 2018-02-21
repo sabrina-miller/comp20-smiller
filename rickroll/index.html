@@ -26,19 +26,19 @@
 		{
 			lyrics.innerHTML = "<div>We're no strangers to love</div><div>You know the rules and so do I</div><div>A full commitment's what I'm thinking of</div><div>You wouldn't get this from any other guy</div>";
 		}
-		else if (vid.currentTime > 34 && vid.currentTime < 42) 
+		else if ((vid.currentTime > 34 && vid.currentTime < 42) || (vid.currentTime > 152 && vid.currentTime < 161))
 		{
 			lyrics.innerHTML = "<div>I just wanna tell you how I'm feeling</div><div>Gotta make you understand</div>";
 		}
-		else if ((vid.currentTime > 42 && vid.currentTime < 60) || (vid.currentTime > 83 && vid.currentTime < 119) || (vid.currentTime > 135 && vid.currentTime < 152) || (vid.currentTime > 160 && vid.currentTime < 210)) 
+		else if ((vid.currentTime > 42 && vid.currentTime < 60) || (vid.currentTime > 85 && vid.currentTime < 119) || (vid.currentTime > 160 && vid.currentTime < 210)) 
 		{
 			lyrics.innerHTML = "<div>Never gonna give you up</div><div>Never gonna let you down</div><div>Never gonna run around and desert you</div><div>Never gonna make you cry</div><div>Never gonna say goodbye</div><div>Never gonna tell a lie and hurt you</div>";
 		}
-		else if (vid.currentTime > 60 && vid.currentTime < 77) 
+		else if ((vid.currentTime > 60 && vid.currentTime < 77) || (vid.currentTime > 135 && vid.currentTime < 152))
 		{
 			lyrics.innerHTML = "<div>We've known each other for so long</div><div>Your heart's been aching, but</div><div>You're too shy to say it</div><div>Inside, we both know what's been going on</div><div>We know the game and we're gonna play it</div>";
 		}
-		else if (vid.currentTime > 77 && vid.currentTime < 83) 
+		else if (vid.currentTime > 77 && vid.currentTime < 85) 
 		{
 			lyrics.innerHTML = "<div>And if you ask me how I'm feeling</div><div>Don't tell me you're too blind to see</div>";
 		}
@@ -46,13 +46,9 @@
 		{
 			lyrics.innerHTML = "<div>(Ooh, give you up)</div><div>(Ooh, give you up)</div><div>Never gonna give, never gonna give</div><div>(Give you up)</div><div>Never gonna give, never gonna give</div><div>(Give you up)</div>";
 		}
-		else if (vid.currentTime > 152 && vid.currentTime < 160) 
-		{
-			lyrics.innerHTML = "<div>I just wanna tell you how I'm feeling</div><div>Gotta make you understand</div>";
-		}
 		else 
 		{
-			lyrics.innerHTML ="";
+			lyrics.innerHTML = "";
 		}
 	}
 
