@@ -81,7 +81,6 @@ function sendData() {
 }
 
 function placeMarkers() {
-
 	// set length based on if passenger or vehicle
 	if ("vehicles" in parsedData) {
 		len = parsedData.vehicles.length;
@@ -107,7 +106,7 @@ function placeMarkers() {
 		}
 
 		current = new google.maps.LatLng(thisLat, thisLng);
-		distance = google.maps.geometry.spherical.computeDistanceBetween(current, me);
+		distance = google.maps.geometry.spherical.computeDistanceBetween(me, current);
 		distance = distance * conversion;
 
 		if (distance < shortest)
