@@ -5,10 +5,11 @@ var myUsername = "moCmzCARAL";
 var map;
 var marker;
 var infowindow;
-var marker2;
-var infowindow2;
 var len;
 var parsedData;
+var shortest = Infinity;
+var notUserType;
+var conversion = 0.00062137;
 
 // vehicle username K9m65WRQyh
 
@@ -43,10 +44,11 @@ function renderMap() {
 	// update map and go there
 	map.panTo(me);
 	
+	myTitle = "Username: " + myUsername + "</br>Nearest " + notUserType + ": " + shortest + " miles away"
 	// create a new marker
 	marker = new google.maps.Marker({
 		position: me,
-		title: myUsername
+		title: myTitle
 	});
 	marker.setMap(map);
 		
@@ -81,10 +83,14 @@ function sendData() {
 function placeMarkers() {
 
 	// set length based on if passenger or vehicle
-	if ("vehicles" in parsedData)
+	if ("vehicles" in parsedData) {
 		len = parsedData.vehicles.length;
-	else if ("passengers" in parsedData)
+		notUserType = "vehicle";
+	}
+	else if ("passengers" in parsedData) {
 		len = parsedData.passengers.length;
+		notUserType = "passenger";
+	}
 
 	for (count = 0; count < len; count++) {
 		if ("vehicles" in parsedData) {
@@ -102,19 +108,23 @@ function placeMarkers() {
 
 		current = new google.maps.LatLng(thisLat, thisLng);
 		distance = google.maps.geometry.spherical.computeDistanceBetween(current, me);
+		distance = distance * conversion;
 
-		marker2 = new google.maps.Marker({
-		position: current,
-		title: "Username: " + thisUser + "\nDistance: " + distance,
-		icon: iconType
+		if (distance < shortest)
+			shortest = distance;
+
+		marker = new google.maps.Marker({
+			position: current,
+ 			title: "Username: " + thisUser + "</br>Distance: " + distance + " miles away",
+			icon: iconType
 		});
-		marker2.setMap(map);
+		marker.setMap(map);
 
-		infowindow2 = new google.maps.InfoWindow();
+		infowindow = new google.maps.InfoWindow();
 		// open info window on click of marker
-		google.maps.event.addListener(marker2, 'click', function() {
-			infowindow2.setContent(marker2.title);
-			infowindow2.open(map, marker2);
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.setContent(this.title);
+			infowindow.open(map, this);
 		});
 	}
 }
