@@ -4,7 +4,9 @@ var me = new google.maps.LatLng(myLat, myLng);
 var myUsername = "moCmzCARAL";
 var map;
 var marker;
+var myMarker;
 var infowindow;
+var myInfoWindow;
 var len;
 var parsedData;
 var shortest = Infinity;
@@ -22,7 +24,6 @@ var myOptions = {
 function init() {
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	getMyLocation();
-	sendData();
 }
 
 function getMyLocation() {
@@ -31,6 +32,7 @@ function getMyLocation() {
 			myLat = position.coords.latitude;
 			myLng = position.coords.longitude;
 			renderMap();
+			sendData();
 		});
 	}
 	else {
@@ -44,20 +46,18 @@ function renderMap() {
 	// update map and go there
 	map.panTo(me);
 	
-	myTitle = "Username: " + myUsername + "</br>Nearest " + notUserType + ": " + shortest + " miles away"
 	// create a new marker
-	marker = new google.maps.Marker({
+	myMarker = new google.maps.Marker({
 		position: me,
-		title: myTitle
 	});
-	marker.setMap(map);
+	myMarker.setMap(map);
 		
-	infowindow = new google.maps.InfoWindow();
-	// open info window on click of marker
-	google.maps.event.addListener(marker, 'click', function() {
-		infowindow.setContent(marker.title);
-		infowindow.open(map, marker);
-	});
+	// myInfoWindow = new google.maps.InfoWindow();
+	// // open info window on click of marker
+	// google.maps.event.addListener(myMarker, 'click', function() {
+	// 	myInfoWindow.setContent(myMarker.title);
+	// 	myInfoWindow.open(map, myMarker);
+	// });
 }
 
 function sendData() {
@@ -108,6 +108,7 @@ function placeMarkers() {
 		current = new google.maps.LatLng(thisLat, thisLng);
 		distance = google.maps.geometry.spherical.computeDistanceBetween(me, current);
 		distance = distance * conversion;
+		distance = distance.toPrecision(4);
 
 		if (distance < shortest)
 			shortest = distance;
@@ -126,4 +127,14 @@ function placeMarkers() {
 			infowindow.open(map, this);
 		});
 	}
+
+	myTitle = "Username: " + myUsername + "</br>Nearest " + notUserType + ": " + shortest + " miles away";
+
+	myInfoWindow = new google.maps.InfoWindow();
+	// open info window on click of marker
+	google.maps.event.addListener(myMarker, 'click', function() {
+		myInfoWindow.setContent(myTitle);
+		myInfoWindow.open(map, myMarker);
+	});
+
 }
