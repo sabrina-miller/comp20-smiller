@@ -1,7 +1,7 @@
 var myLat = 0;
 var myLng = 0;
 var me = new google.maps.LatLng(myLat, myLng);
-var myUsername = "moCmzCARAL";
+var myUsername = "K9m65WRQyh"; //"moCmzCARAL";
 var map;
 var marker;
 var myMarker;
@@ -31,6 +31,9 @@ function getMyLocation() {
 		navigator.geolocation.getCurrentPosition(function(position) {
 			myLat = position.coords.latitude;
 			myLng = position.coords.longitude;
+
+			// execute functions in this order so variables are set in the correct order
+			// for proper access
 			renderMap();
 			sendData();
 		});
@@ -51,13 +54,6 @@ function renderMap() {
 		position: me,
 	});
 	myMarker.setMap(map);
-		
-	// myInfoWindow = new google.maps.InfoWindow();
-	// // open info window on click of marker
-	// google.maps.event.addListener(myMarker, 'click', function() {
-	// 	myInfoWindow.setContent(myMarker.title);
-	// 	myInfoWindow.open(map, myMarker);
-	// });
 }
 
 function sendData() {
@@ -105,14 +101,18 @@ function placeMarkers() {
 			iconType = "dude.png";
 		}
 
+		// calculate distance between current point and me, convert to miles,
+		// change precision on that number for nicer interface
 		current = new google.maps.LatLng(thisLat, thisLng);
 		distance = google.maps.geometry.spherical.computeDistanceBetween(me, current);
 		distance = distance * conversion;
 		distance = distance.toPrecision(4);
 
+		// update shortest distance if applicable
 		if (distance < shortest)
 			shortest = distance;
 
+		// create new marker for current vehicle/passenger object
 		marker = new google.maps.Marker({
 			position: current,
  			title: "Username: " + thisUser + "</br>Distance: " + distance + " miles away",
