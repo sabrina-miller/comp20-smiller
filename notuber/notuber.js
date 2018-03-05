@@ -1,7 +1,14 @@
 var myLat = 0;
 var myLng = 0;
 var me = new google.maps.LatLng(myLat, myLng);
-myUsername = "moCmzCARAL";
+var myUsername = "moCmzCARAL";
+var map;
+var marker;
+var infowindow;
+var marker2;
+var infowindow2;
+var len;
+var parsedData;
 
 // vehicle username K9m65WRQyh
 
@@ -10,10 +17,6 @@ var myOptions = {
 	center: me,
 	mapTypeId: google.maps.MapTypeId.ROADMAP
 };
-
-var map;
-var marker;
-var infowindow = new google.maps.InfoWindow();
 
 function init() {
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
@@ -47,6 +50,7 @@ function renderMap() {
 	});
 	marker.setMap(map);
 		
+	infowindow = new google.maps.InfoWindow();
 	// open info window on click of marker
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.setContent(marker.title);
@@ -76,6 +80,7 @@ function sendData() {
 
 function placeMarkers() {
 
+	// set length based on if passenger or vehicle
 	if ("vehicles" in parsedData)
 		len = parsedData.vehicles.length;
 	else if ("passengers" in parsedData)
@@ -96,38 +101,20 @@ function placeMarkers() {
 		}
 
 		current = new google.maps.LatLng(thisLat, thisLng);
-		distance = haversine(myLat, myLng, thisLat, thisLng);
-		console.log(distance);
+		distance = google.maps.geometry.spherical.computeDistanceBetween(current, me);
 
-		thisMarker = new google.maps.Marker({
-			position: current,
-			title: thisUser,
-			icon: iconType
-		})
-		thisMarker.setMap(map);
-
-		// this is not working figure out how to make this work
-		google.maps.event.addListener(thisMarker, 'click', function() {
-			infowindow.setContent(thisMarker.title);
-			infowindow.open(map, thisMarker);
+		marker2 = new google.maps.Marker({
+		position: current,
+		title: "Username: " + thisUser + "\nDistance: " + distance,
+		icon: iconType
 		});
+		marker2.setMap(map);
 
+		infowindow2 = new google.maps.InfoWindow();
+		// open info window on click of marker
+		google.maps.event.addListener(marker2, 'click', function() {
+			infowindow2.setContent(marker2.title);
+			infowindow2.open(map, marker2);
+		});
 	}
-}
-
-function haversine(lat1, lng1, lat2, lng2) {
-	var R = 6371e3; 
-	var phi1 = toRad(lat1);
-	var phi2 = toRad(lat2);
-	var deltaPhi = toRad(lat2 - lat1); 
-	var deltaLambda = toRad(lng2 - lng1);
-
-	var a = (Math.sin(deltaPhi / 2) * Math.sin(deltaPhi * 2)) + (Math.cos(phi1) * Math.cos(phi2))
-		+ (Math.sin(deltaLambda / 2) * Math.sin(deltaLambda * 2));
-	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-	return (R * c);
-}
-
-function toRad(num) {
-   return (num * Math.PI / 180);
 }
