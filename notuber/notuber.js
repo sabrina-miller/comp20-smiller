@@ -3,6 +3,8 @@ var myLng = 0;
 var me = new google.maps.LatLng(myLat, myLng);
 myUsername = "moCmzCARAL";
 
+// vehicle username K9m65WRQyh
+
 var myOptions = {
 	zoom: 13, 
 	center: me,
@@ -94,6 +96,8 @@ function placeMarkers() {
 		}
 
 		current = new google.maps.LatLng(thisLat, thisLng);
+		distance = haversine(myLat, myLng, thisLat, thisLng);
+		console.log(distance);
 
 		thisMarker = new google.maps.Marker({
 			position: current,
@@ -102,10 +106,28 @@ function placeMarkers() {
 		})
 		thisMarker.setMap(map);
 
+		// this is not working figure out how to make this work
 		google.maps.event.addListener(thisMarker, 'click', function() {
 			infowindow.setContent(thisMarker.title);
 			infowindow.open(map, thisMarker);
 		});
 
 	}
+}
+
+function haversine(lat1, lng1, lat2, lng2) {
+	var R = 6371e3; 
+	var phi1 = toRad(lat1);
+	var phi2 = toRad(lat2);
+	var deltaPhi = toRad(lat2 - lat1); 
+	var deltaLambda = toRad(lng2 - lng1);
+
+	var a = (Math.sin(deltaPhi / 2) * Math.sin(deltaPhi * 2)) + (Math.cos(phi1) * Math.cos(phi2))
+		+ (Math.sin(deltaLambda / 2) * Math.sin(deltaLambda * 2));
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	return (R * c);
+}
+
+function toRad(num) {
+   return (num * Math.PI / 180);
 }
