@@ -1,11 +1,11 @@
 var myLat = 0;
 var myLng = 0;
 var me = new google.maps.LatLng(myLat, myLng);
-var myUsername = "K9m65WRQyh"; //"moCmzCARAL";
+var myUsername = "moCmzCARAL";
 var map;
 var marker;
 var myMarker;
-var infowindow;
+var infowindow = new google.maps.InfoWindow();
 var myInfoWindow;
 var len;
 var parsedData;
@@ -119,8 +119,7 @@ function placeMarkers() {
 			icon: iconType
 		});
 		marker.setMap(map);
-
-		infowindow = new google.maps.InfoWindow();
+		
 		// open info window on click of marker
 		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.setContent(this.title);
@@ -130,11 +129,10 @@ function placeMarkers() {
 
 	myTitle = "Username: " + myUsername + "</br>Nearest " + notUserType + ": " + shortest + " miles away";
 
-	myInfoWindow = new google.maps.InfoWindow();
 	// open info window on click of marker
 	google.maps.event.addListener(myMarker, 'click', function() {
-		myInfoWindow.setContent(myTitle);
-		myInfoWindow.open(map, myMarker);
+		infowindow.setContent(myTitle);
+		infowindow.open(map, myMarker);
 	});
 
 }
