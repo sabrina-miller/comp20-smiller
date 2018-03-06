@@ -3,17 +3,18 @@ var myLng = 0;
 var me = new google.maps.LatLng(myLat, myLng);
 var myUsername = "moCmzCARAL";
 var map;
+
+// marker variables
 var marker;
 var myMarker;
+
 var infowindow = new google.maps.InfoWindow();
-var myInfoWindow;
+
 var len;
 var parsedData;
-var shortest = Infinity;
+var shortest = Infinity; // to get the shortest variable comparison started 
 var notUserType;
-var conversion = 0.00062137;
-
-// vehicle username K9m65WRQyh
+var conversion = 0.00062137; // miles per meter
 
 var myOptions = {
 	zoom: 13, 
@@ -21,6 +22,7 @@ var myOptions = {
 	mapTypeId: google.maps.MapTypeId.ROADMAP
 };
 
+// overall function to run when page loads 
 function init() {
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	getMyLocation();
@@ -60,12 +62,13 @@ function sendData() {
 	request = new XMLHttpRequest();
 	request.open("POST", "https://jordan-marsh.herokuapp.com/rides", true);
 
+	// once data is done being received and status is 200, get data and 
+	// parse it
 	request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
 
 				myData = request.responseText;				
 				parsedData = JSON.parse(myData);
-
 				placeMarkers();
 			}
 		};
@@ -119,7 +122,7 @@ function placeMarkers() {
 			icon: iconType
 		});
 		marker.setMap(map);
-		
+
 		// open info window on click of marker
 		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.setContent(this.title);
