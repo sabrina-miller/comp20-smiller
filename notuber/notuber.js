@@ -12,7 +12,7 @@ var infowindow = new google.maps.InfoWindow();
 
 var len;
 var parsedData;
-var shortest = Infinity; // to get the shortest variable comparison started 
+var shortest = -1;
 var notUserType;
 var conversion = 0.00062137; // miles per meter
 
@@ -111,8 +111,10 @@ function placeMarkers() {
 		distance = distance * conversion;
 		distance = distance.toPrecision(4);
 
+		if (count == 0)
+			shortest = distance;
 		// update shortest distance if applicable
-		if (distance < shortest)
+		else if (distance < shortest)
 			shortest = distance;
 
 		// create new marker for current vehicle/passenger object
@@ -129,6 +131,11 @@ function placeMarkers() {
 			infowindow.open(map, this);
 		});
 	}
+
+	if (shortest == -1)
+		displayDistance = "N/A";
+	else 
+		displayDistance = shortest;
 
 	myTitle = "Username: " + myUsername + "</br>Nearest " + notUserType + ": " + shortest + " miles away";
 
