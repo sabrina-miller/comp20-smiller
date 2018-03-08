@@ -13,6 +13,7 @@ var infowindow = new google.maps.InfoWindow();
 var len;
 var parsedData;
 var shortest = -1;
+var displayDistance = "N/A";
 var notUserType;
 var conversion = 0.00062137; // miles per meter
 
@@ -66,7 +67,6 @@ function sendData() {
 	// parse it
 	request.onreadystatechange = function() {
 			if (request.readyState == 4 && request.status == 200) {
-
 				myData = request.responseText;				
 				parsedData = JSON.parse(myData);
 				placeMarkers();
@@ -132,12 +132,10 @@ function placeMarkers() {
 		});
 	}
 
-	if (shortest == -1)
-		displayDistance = "N/A";
-	else 
+	if (shortest != -1)
 		displayDistance = shortest;
 
-	myTitle = "Username: " + myUsername + "</br>Nearest " + notUserType + ": " + shortest + " miles away";
+	myTitle = "Username: " + myUsername + "</br>Nearest " + notUserType + ": " + displayDistance + " miles away";
 
 	// open info window on click of marker
 	google.maps.event.addListener(myMarker, 'click', function() {
