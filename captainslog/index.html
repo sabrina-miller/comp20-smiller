@@ -8,7 +8,27 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-        // Your work will be done here...
+        var text = "";
+        var current;
+
+        $(document).ready(function(){
+            $('h3').keypress(function (e) {
+                if (e.which == 13) {
+
+                    current = $('#msg').val();
+                    text = current + "</br>" + text;
+                    $('div').html(text);
+
+                    // clear the text box
+                    $('#msg').val('');
+                }
+            });
+        });
+
+
+
+
+
     </script>
 </head>
 
