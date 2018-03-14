@@ -11,13 +11,19 @@
         var text = "";
         var current;
         var thisDate;
+        var keyArray = [];
 
         $(document).ready(function(){
-            // reload old local storage to page
+
+            // reload old local storage to page and sort it 
             for (var i = (localStorage.length - 1); i >= 0; i--) {
                 var thisKey = localStorage.key(i);
-                var thisValue = localStorage.getItem(localStorage.key(i));
-                var thisText = thisKey + " - " + thisValue + "</br>";
+                keyArray[i] = thisKey;
+            }
+            keyArray.sort();
+
+            for (var i = (localStorage.length - 1); i >= 0; i--) {
+                var thisText = keyArray[i] + " - " + localStorage[keyArray[i]] + "</br>";
                 text = text + thisText;
             }
             $("#log").html(text);
