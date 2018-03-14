@@ -8,16 +8,23 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-        var text = "";
+        text = "";
         var current;
+        var thisDate;
 
         $(document).ready(function(){
             $('h3').keypress(function (e) {
+                // if user presses return
                 if (e.which == 13) {
-
+                    // get value of text box and make local storage key
+                    // value pair
                     current = $('#msg').val();
-                    text = current + "</br>" + text;
-                    $('div').html(text);
+                    thisDate = Date();
+                    localStorage.setItem(current, thisDate);
+
+                    // update body of website
+                    text = thisDate + " - " + current + "</br>" + text;
+                    $('#log').html(text);
 
                     // clear the text box
                     $('#msg').val('');
