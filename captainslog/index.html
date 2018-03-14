@@ -8,11 +8,21 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-        text = "";
+        var text = "";
         var current;
         var thisDate;
 
         $(document).ready(function(){
+            // reload old local storage to page
+            for (var i = (localStorage.length - 1); i >= 0; i--) {
+                var thisKey = localStorage.key(i);
+                var thisValue = localStorage.getItem(localStorage.key(i));
+                var thisText = thisKey + " - " + thisValue + "</br>";
+                text = text + thisText;
+            }
+            $("#log").html(text) 
+
+            // get inbox value on enter key press
             $('h3').keypress(function (e) {
                 // if user presses return
                 if (e.which == 13) {
@@ -20,7 +30,7 @@
                     // value pair
                     current = $('#msg').val();
                     thisDate = Date();
-                    localStorage.setItem(current, thisDate);
+                    localStorage.setItem(thisDate, current);
 
                     // update body of website
                     text = thisDate + " - " + current + "</br>" + text;
