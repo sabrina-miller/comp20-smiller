@@ -61,7 +61,7 @@ function renderMap() {
 
 function sendData() {
 	request = new XMLHttpRequest();
-	request.open("POST", "https://jordan-marsh.herokuapp.com/rides", true);
+	request.open("POST", "https://fast-gorge-76938.herokuapp.com/rides", true);
 
 	// once data is done being received and status is 200, get data and 
 	// parse it
